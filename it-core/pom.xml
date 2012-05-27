@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.jvending.huntsville</groupId>
+  <artifactId>it-core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>it-core</name>
+	<url>https://github.com/sisbell/masa</url>
+	<inceptionYear>2008</inceptionYear>
+	<scm>
+		<url>scm:git:git@github.com:sisbell/hunstville.git</url>
+		<connection>scm:git:git@github.com:sisbell/hunstville.git</connection>
+		<developerConnection>scm:git:https://sisbell@github.com/sisbell/hunstville.git</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>Issue Tracking</system>
+		<url>https://github.com/sisbell/hunstville/issues</url>
+	</issueManagement>
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>LICENSE.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Shane Isbell</name>
+			<id>sisbell</id>
+			<email>shane.isbell@gmail.com</email>
+			<roles>
+				<role>committer</role>
+			</roles>
+		</developer>
+	</developers>
+	  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.version>2.0.10</maven.version>
+		<plexus.version>1.0.0</plexus.version>
+		<plexus.utils.version>1.5.9</plexus.utils.version>
+		<plexus.archiver.version>1.0-alpha-12</plexus.archiver.version>    
+  </properties>
+
+  <dependencies>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>${plexus.utils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-container-default</artifactId>
+			<version>${plexus.version}</version>
+		</dependency>      
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
