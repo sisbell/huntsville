@@ -9,8 +9,7 @@ import org.jvending.huntsville.commands.CommandExecutor;
 public class ItVerifier
 {
 
-    private static final String SDK = "/Users/shaneisbell/android-sdks/platform-tools/adb";
-    //TODO - make this dynamic (toolchains?)
+    private static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
 
     public void saveLog( File outputFile )
         throws Exception
