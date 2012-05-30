@@ -10,10 +10,10 @@ import java.util.Properties;
 import org.jvending.huntsville.commands.CommandExecutor;
 import org.jvending.huntsville.commands.ExecutionException;
 
-public class ItVerifier
+public class ItVerifier extends Assertions
 {
 
-    private static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
+    public static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
 
     public File saveLog( File tempFileDir, File targetDirectory )
         throws IOException, ExecutionException

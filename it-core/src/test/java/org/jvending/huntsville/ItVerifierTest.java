@@ -61,4 +61,11 @@ public class ItVerifierTest
         Properties p = it.readPropertiesFileFromDevice( new File("/default.prop") );
         assertTrue(p.containsKey( "ro.debuggable" ));
     }
+    
+    public void testFileExists()
+        throws Exception
+    {
+        ItVerifier it = new ItVerifier();
+        it.assertFileExists( new File("/default.prop") );
+    }
 }
