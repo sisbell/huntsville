@@ -43,7 +43,8 @@ public class ItVerifierTest
     public void testLog()
         throws Exception
     {
+        File tempFile = new File("/sdcard/it-" + System.currentTimeMillis() + ".txt");
         ItVerifier it = new ItVerifier();
-        it.saveLog( new File( "it.log" ) );
+        it.saveLog( new File( "it.log"), tempFile );
     }
 }

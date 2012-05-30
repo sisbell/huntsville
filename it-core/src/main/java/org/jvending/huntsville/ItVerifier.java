@@ -11,11 +11,11 @@ public class ItVerifier
 
     private static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
 
-    public void saveLog( File outputFile )
+    public void saveLog( File outputFile, File tempFileOnDevice )
         throws Exception
     {
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
-        String logFile = "/sdcard/it-" + Math.random() + ".txt";
+
         List<String> commands = new ArrayList<String>();
         commands.add( "shell" );
 
@@ -24,26 +24,30 @@ public class ItVerifier
         commands.add( "-d" );
 
         commands.add( "-f" );
-        commands.add( logFile );
+        commands.add( tempFileOnDevice.getAbsolutePath() );
 
         executor.executeCommand( SDK, commands, new File( "." ), false );
 
-        pullFile( logFile );
+        pullFile( tempFileOnDevice );
 
     }
 
-    public void pullFile( String fileName )
+    public void pullFile( File fileName )
         throws Exception
     {
+        File target = new File( "target/logs" );
+        if ( !target.exists() )
+        {
+            target.mkdirs();
+        }
+
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
         List<String> commands = new ArrayList<String>();
         commands.add( "pull" );
 
-        commands.add( fileName );
+        commands.add( fileName.getAbsolutePath() );
 
-        System.out.println( fileName );
-
-        executor.executeCommand( SDK, commands, new File( "." ), false );
+        executor.executeCommand( SDK, commands, target, false );
     }
 
     public void clearLog()
