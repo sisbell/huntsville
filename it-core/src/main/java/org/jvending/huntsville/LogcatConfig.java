@@ -18,7 +18,7 @@ public class LogcatConfig
     {
         this.priority = ( priority != null ) ? priority : LogPriority.DEBUG;
         this.tag = ( tag != null && !tag.isEmpty() ) ? tag : "*";
-        this.buffers = ( buffers != null ) ? new ArrayList(buffers) : Arrays.asList( LogBuffer.MAIN, LogBuffer.SYSTEM );
+        this.buffers = ( buffers != null ) ? new ArrayList<LogBuffer>(buffers) : Arrays.asList( LogBuffer.MAIN, LogBuffer.SYSTEM );
         this.format = ( format != null ) ? format : LogFormat.BRIEF;
     }
 
