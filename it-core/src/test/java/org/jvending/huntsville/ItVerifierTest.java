@@ -68,4 +68,11 @@ public class ItVerifierTest
         ItVerifier it = new ItVerifier();
         it.assertFileExists( new File("/default.prop") );
     }
+    
+    public void testFileDoesNotExist()
+        throws Exception
+    {
+        ItVerifier it = new ItVerifier();
+        it.assertFileDoesNotExist( new File("/dummy.prop") );
+    }
 }
