@@ -11,9 +11,16 @@ public class ItVerifier
 
     private static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
 
-    public void saveLog( File outputFile, File tempFileOnDevice )
+    public File saveLog( File tempFileDir, File targetDirectory )
         throws Exception
     {
+        if ( !tempFileDir.exists() )
+        {
+            tempFileDir.mkdirs();
+        }
+
+        File tempFileOnDevice = new File( tempFileDir, "it-" + System.currentTimeMillis() + ".txt" );
+
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
 
         List<String> commands = new ArrayList<String>();
@@ -28,28 +35,28 @@ public class ItVerifier
 
         executor.executeCommand( SDK, commands, new File( "." ), false );
 
-        pullFile( tempFileOnDevice );
+        return pullFile( tempFileOnDevice, targetDirectory );
 
     }
 
-    public void pullFile( File fileName )
+    public File pullFile( File sourceFileName, File targetDirectory )
         throws Exception
     {
-        File target = new File( "target/logs" );
-        if ( !target.exists() )
+        if ( !targetDirectory.exists() )
         {
-            target.mkdirs();
+            targetDirectory.mkdirs();
         }
 
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
         List<String> commands = new ArrayList<String>();
         commands.add( "pull" );
 
-        commands.add( fileName.getAbsolutePath() );
+        commands.add( sourceFileName.getAbsolutePath() );
 
-        executor.executeCommand( SDK, commands, target, false );
-        
-        deleteLog(fileName);
+        executor.executeCommand( SDK, commands, targetDirectory, false );
+
+        deleteLog( sourceFileName );
+        return new File( targetDirectory, sourceFileName.getName() );
     }
 
     public void clearLog()
@@ -65,8 +72,10 @@ public class ItVerifier
         commands.add( "-c" );
         executor.executeCommand( SDK, commands, new File( "." ), false );
     }
-    
-    private void deleteLog(File log) throws Exception {
+
+    private void deleteLog( File log )
+        throws Exception
+    {
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
 
         List<String> commands = new ArrayList<String>();
@@ -75,6 +84,6 @@ public class ItVerifier
         commands.add( "rm" );
 
         commands.add( log.getAbsolutePath() );
-        executor.executeCommand( SDK, commands, new File( "." ), false );       
+        executor.executeCommand( SDK, commands, new File( "." ), false );
     }
 }

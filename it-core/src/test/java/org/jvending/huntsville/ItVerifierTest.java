@@ -1,6 +1,7 @@
 package org.jvending.huntsville;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -43,8 +44,10 @@ public class ItVerifierTest
     public void testLog()
         throws Exception
     {
-        File tempFile = new File("/sdcard/it-" + System.currentTimeMillis() + ".txt");
+        File targetDir = new File( "target/logs" );
+        File tempFileDir = new File("/sdcard");
         ItVerifier it = new ItVerifier();
-        it.saveLog( new File( "it.log"), tempFile );
+        File log = it.saveLog( tempFileDir, targetDir );
+        Logger.getAnonymousLogger().info( "Saved file:  " + log.getAbsolutePath() );
     }
 }
