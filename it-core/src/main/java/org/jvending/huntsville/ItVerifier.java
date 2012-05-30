@@ -48,6 +48,8 @@ public class ItVerifier
         commands.add( fileName.getAbsolutePath() );
 
         executor.executeCommand( SDK, commands, target, false );
+        
+        deleteLog(fileName);
     }
 
     public void clearLog()
@@ -62,5 +64,17 @@ public class ItVerifier
 
         commands.add( "-c" );
         executor.executeCommand( SDK, commands, new File( "." ), false );
+    }
+    
+    private void deleteLog(File log) throws Exception {
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "rm" );
+
+        commands.add( log.getAbsolutePath() );
+        executor.executeCommand( SDK, commands, new File( "." ), false );       
     }
 }
