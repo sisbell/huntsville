@@ -55,7 +55,7 @@ public class ItVerifierTest
         Logger.getAnonymousLogger().info( "Saved file:  " + log.getAbsolutePath() );
     }
 
-    public void testProperties()
+    public void testReadProperties()
         throws Exception
     {
         ItVerifier it = new ItVerifier();
@@ -66,28 +66,24 @@ public class ItVerifierTest
     public void testFileExists()
         throws Exception
     {
-        ItVerifier it = new ItVerifier();
-        it.assertFileExists( new File( "/default.prop" ) );
+        DeviceAssert.assertFileExists( new File( "/default.prop" ) );
     }
 
     public void testFileDoesNotExist()
         throws Exception
     {
-        ItVerifier it = new ItVerifier();
-        it.assertFileDoesNotExist( new File( "/dummy.prop" ) );
+        DeviceAssert.assertFileDoesNotExist( new File( "/dummy.prop" ) );
     }
 
     public void testPackageInstalled()
         throws Exception
     {
-        ItVerifier it = new ItVerifier();
-        it.assertPackageInstalled( "com.android.vending" );
+        DeviceAssert.assertPackageInstalled( "com.android.vending" );
     }
     
     public void testPackagesInstalled()
         throws Exception
     {
-        ItVerifier it = new ItVerifier();
-        it.assertPackagesInstalled( Arrays.asList("com.android.vending", "com.google.android.browser" ));
+        DeviceAssert.assertPackagesInstalled( Arrays.asList("com.android.vending", "com.google.android.browser" ));
     }
 }

@@ -3,6 +3,7 @@ package org.jvending.huntsville;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -10,7 +11,7 @@ import java.util.Properties;
 import org.jvending.huntsville.commands.CommandExecutor;
 import org.jvending.huntsville.commands.ExecutionException;
 
-public class ItVerifier extends Assertions
+public class ItVerifier extends DeviceAssert
 {
 
     public static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
@@ -122,6 +123,22 @@ public class ItVerifier extends Assertions
         }
         Properties p = new Properties();
         p.load( new FileInputStream( props ) );
+        return p;
+    }
+    
+    public Properties readEnvironmentVariablesFromDevice() throws ExecutionException, IOException 
+    {
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "set" );
+
+        executor.executeCommand( SDK, commands, new File( "." ), false );     
+        
+        Properties p = new Properties();
+        p.load( new StringReader(executor.getStandardOut()) );
         return p;
     }
 
