@@ -16,16 +16,10 @@ public class ItVerifier
     public File saveLog( File tempFileDir, File targetDirectory )
         throws IOException, ExecutionException
     {
-        return saveLog( tempFileDir, targetDirectory, null, null );
+        return saveLog( tempFileDir, targetDirectory, null );
     }
 
-    public File saveLog( File tempFileDir, File targetDirectory, LogPriority priority )
-        throws IOException, ExecutionException
-    {
-        return saveLog( tempFileDir, targetDirectory, priority, null );
-    }
-
-    public File saveLog( File tempFileDir, File targetDirectory, LogPriority priority, String tag )
+    public File saveLog( File tempFileDir, File targetDirectory, LogcatConfig config )
         throws IOException, ExecutionException
     {
         if ( tempFileDir == null || targetDirectory == null )
@@ -40,16 +34,7 @@ public class ItVerifier
                 throw new IOException( "Unable to create temp file directory" );
             }
         }
-
-        if ( priority == null )
-        {
-            priority = LogPriority.DEBUG;
-        }
-
-        if ( tag == null || tag.isEmpty() )
-        {
-            tag = "*";
-        }
+        LogcatConfig logcatConfig = ( config == null ) ? new LogcatConfig() : config.createCopy();
 
         File tempFileOnDevice = new File( tempFileDir, "it-" + System.currentTimeMillis() + ".txt" );
 
@@ -66,7 +51,16 @@ public class ItVerifier
         commands.add( tempFileOnDevice.getAbsolutePath() );
 
         commands.add( "-s" );
-        commands.add( tag + ":" + priority.mLevel );
+        commands.add( logcatConfig.getTag() + ":" + logcatConfig.getPriority().level );
+
+        for ( LogBuffer buffer : logcatConfig.getBuffers() )
+        {
+            commands.add( "-b" );
+            commands.add( buffer.buffer );
+        }
+        
+        commands.add( "-v" );
+        commands.add( logcatConfig.getFormat().format );
 
         executor.executeCommand( SDK, commands, new File( "." ), false );
 

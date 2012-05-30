@@ -5,10 +5,10 @@ public enum LogPriority
 
     DEBUG("D"), INFO("I"), WARNING("W"), ERROR("E"), FATAL("F"), SILENT("S");
 
-    public final String mLevel;
+    public final String level;
 
     LogPriority( String level )
     {
-        mLevel = level;
-    }
+        this.level = level;
+    }   
 }
