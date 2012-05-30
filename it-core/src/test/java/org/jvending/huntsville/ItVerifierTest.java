@@ -1,6 +1,7 @@
 package org.jvending.huntsville;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -58,21 +59,35 @@ public class ItVerifierTest
         throws Exception
     {
         ItVerifier it = new ItVerifier();
-        Properties p = it.readPropertiesFileFromDevice( new File("/default.prop") );
-        assertTrue(p.containsKey( "ro.debuggable" ));
+        Properties p = it.readPropertiesFileFromDevice( new File( "/default.prop" ) );
+        assertTrue( p.containsKey( "ro.debuggable" ) );
     }
-    
+
     public void testFileExists()
         throws Exception
     {
         ItVerifier it = new ItVerifier();
-        it.assertFileExists( new File("/default.prop") );
+        it.assertFileExists( new File( "/default.prop" ) );
     }
-    
+
     public void testFileDoesNotExist()
         throws Exception
     {
         ItVerifier it = new ItVerifier();
-        it.assertFileDoesNotExist( new File("/dummy.prop") );
+        it.assertFileDoesNotExist( new File( "/dummy.prop" ) );
+    }
+
+    public void testPackageInstalled()
+        throws Exception
+    {
+        ItVerifier it = new ItVerifier();
+        it.assertPackageInstalled( "com.android.vending" );
+    }
+    
+    public void testPackagesInstalled()
+        throws Exception
+    {
+        ItVerifier it = new ItVerifier();
+        it.assertPackagesInstalled( Arrays.asList("com.android.vending", "com.google.android.browser" ));
     }
 }
