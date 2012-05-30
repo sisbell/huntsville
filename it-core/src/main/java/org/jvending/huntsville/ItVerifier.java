@@ -11,7 +11,7 @@ public class ItVerifier
 
     private static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
 
-    public File saveLog( File tempFileDir, File targetDirectory )
+    public File saveLog( File tempFileDir, File targetDirectory, LogPriority priority )
         throws Exception
     {
         if ( !tempFileDir.exists() )
@@ -33,6 +33,11 @@ public class ItVerifier
         commands.add( "-f" );
         commands.add( tempFileOnDevice.getAbsolutePath() );
 
+        if ( priority != null )
+        {
+            commands.add( "-s" );
+            commands.add( "*:" + priority.mLevel );
+        }
         executor.executeCommand( SDK, commands, new File( "." ), false );
 
         return pullFile( tempFileOnDevice, targetDirectory );

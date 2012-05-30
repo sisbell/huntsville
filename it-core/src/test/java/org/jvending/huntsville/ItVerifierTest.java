@@ -46,8 +46,10 @@ public class ItVerifierTest
     {
         File targetDir = new File( "target/logs" );
         File tempFileDir = new File("/sdcard");
+        
         ItVerifier it = new ItVerifier();
-        File log = it.saveLog( tempFileDir, targetDir );
+        File log = it.saveLog( tempFileDir, targetDir, LogPriority.DEBUG );
+        
         Logger.getAnonymousLogger().info( "Saved file:  " + log.getAbsolutePath() );
     }
 }
