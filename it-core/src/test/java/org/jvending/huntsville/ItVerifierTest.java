@@ -1,6 +1,7 @@
 package org.jvending.huntsville;
 
 import java.io.File;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import junit.framework.Test;
@@ -45,11 +46,19 @@ public class ItVerifierTest
         throws Exception
     {
         File targetDir = new File( "target/logs" );
-        File tempFileDir = new File("/sdcard");
-        
+        File tempFileDir = new File( "/sdcard" );
+
         ItVerifier it = new ItVerifier();
         File log = it.saveLog( tempFileDir, targetDir, null );
-        
+
         Logger.getAnonymousLogger().info( "Saved file:  " + log.getAbsolutePath() );
+    }
+
+    public void testProperties()
+        throws Exception
+    {
+        ItVerifier it = new ItVerifier();
+        Properties p = it.readPropertiesFileFromDevice( new File("/default.prop") );
+        assertTrue(p.containsKey( "ro.debuggable" ));
     }
 }

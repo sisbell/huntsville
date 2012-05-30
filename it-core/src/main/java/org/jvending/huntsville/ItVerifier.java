@@ -1,9 +1,11 @@
 package org.jvending.huntsville;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.jvending.huntsville.commands.CommandExecutor;
 import org.jvending.huntsville.commands.ExecutionException;
@@ -58,7 +60,7 @@ public class ItVerifier
             commands.add( "-b" );
             commands.add( buffer.buffer );
         }
-        
+
         commands.add( "-v" );
         commands.add( logcatConfig.getFormat().format );
 
@@ -107,6 +109,20 @@ public class ItVerifier
 
         commands.add( "-c" );
         executor.executeCommand( SDK, commands, new File( "." ), false );
+    }
+
+    public Properties readPropertiesFileFromDevice( File propertyFile )
+        throws IOException, ExecutionException
+    {
+        File targetDirectory = new File( "target/tmp" );
+        File props = pullFileFromDevice( propertyFile, targetDirectory );
+        if ( !props.exists() )
+        {
+            throw new IOException( "Properties file not found" );
+        }
+        Properties p = new Properties();
+        p.load( new FileInputStream( props ) );
+        return p;
     }
 
     private void deleteLog( File log )
