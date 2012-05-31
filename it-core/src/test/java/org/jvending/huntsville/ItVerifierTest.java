@@ -87,6 +87,18 @@ public class ItVerifierTest
         DeviceAssert.assertPackagesInstalled( Arrays.asList( "com.android.vending", "com.google.android.browser" ) );
     }
 
+    public void testEnvironmentPropertyExists()
+        throws Exception
+    {
+        DeviceAssert.assertEnvironmentPropertyExists( "SHELL" );
+    }
+
+    public void testEnvironmentPropertyValue()
+        throws Exception
+    {
+        DeviceAssert.assertEnvironmentPropertyValue( "ANDROID_DATA", "/data" );
+    }
+    
     public void testDevicePropertyExists()
         throws Exception
     {
