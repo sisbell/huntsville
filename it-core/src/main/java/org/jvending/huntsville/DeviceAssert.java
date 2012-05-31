@@ -34,6 +34,18 @@ public class DeviceAssert
         assertTrue( executePackagesCommands().getStandardOut().contains( appPackage ) );
     }
 
+    public static void assertLogDoesNotContainMessage(String message  )
+        throws ExecutionException, IOException
+    {
+        assertTrue( !(new ItVerifier(  ).getLogAsString( null ).contains( message )) );    
+    }
+    
+    public static void assertLogContainsMessage(String message  )
+        throws ExecutionException, IOException
+    {
+        assertTrue( (new ItVerifier(  ).getLogAsString( null ).contains( message )) );    
+    }
+
     public static void assertPackagesInstalled( List<String> appPackages )
         throws ExecutionException
     {
@@ -114,7 +126,7 @@ public class DeviceAssert
         throws ExecutionException, IOException
     {
         assertDevicePropertyValue( "ro.build.version.sdk", String.valueOf( sdk ) );
-    } 
+    }
 
     private static CommandExecutor executePackagesCommands()
         throws ExecutionException

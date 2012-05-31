@@ -98,7 +98,7 @@ public class ItVerifierTest
     {
         DeviceAssert.assertEnvironmentPropertyValue( "ANDROID_DATA", "/data" );
     }
-    
+
     public void testDevicePropertyExists()
         throws Exception
     {
@@ -109,9 +109,21 @@ public class ItVerifierTest
         throws Exception
     {
         DeviceAssert.assertDevicePropertyValue( "ro.debuggable", "1" );
-        
+
+    }
+
+    public void testLogContains()
+        throws Exception
+    {
+        DeviceAssert.assertLogContainsMessage( "/" );
     }
     
+    public void testLogDoesNotContain()
+        throws Exception
+    {
+        DeviceAssert.assertLogDoesNotContainMessage( "foobar" );
+    }
+
     /*
     public void testSetEnvironmentProperty() throws Exception {
         ItVerifier it = new ItVerifier();

@@ -24,6 +24,36 @@ public class ItVerifier
         return saveLog( tempFileDir, targetDirectory, null );
     }
 
+    public String getLogAsString(LogcatConfig config) 
+        throws IOException, ExecutionException
+    {
+        LogcatConfig logcatConfig = ( config == null ) ? new LogcatConfig() : config.createCopy();
+
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "logcat" );
+
+        commands.add( "-d" );
+
+        commands.add( "-s" );
+        commands.add( logcatConfig.getTag() + ":" + logcatConfig.getPriority().level );
+
+        for ( LogBuffer buffer : logcatConfig.getBuffers() )
+        {
+            commands.add( "-b" );
+            commands.add( buffer.buffer );
+        }
+
+        commands.add( "-v" );
+        commands.add( logcatConfig.getFormat().format );
+
+        executor.executeCommand( SDK, commands, new File( "." ), false );  
+        return executor.getStandardOut();
+    }
+    
     public File saveLog( File tempFileDir, File targetDirectory, LogcatConfig config )
         throws IOException, ExecutionException
     {
