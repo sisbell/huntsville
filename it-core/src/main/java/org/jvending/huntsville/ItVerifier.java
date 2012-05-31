@@ -1,5 +1,6 @@
 package org.jvending.huntsville;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +12,8 @@ import java.util.Properties;
 import org.jvending.huntsville.commands.CommandExecutor;
 import org.jvending.huntsville.commands.ExecutionException;
 
-public class ItVerifier extends DeviceAssert
+public class ItVerifier
+    extends DeviceAssert
 {
 
     public static final String SDK = System.getProperty( "ANDROID_SDK" ) + "/platform-tools/adb";
@@ -125,8 +127,9 @@ public class ItVerifier extends DeviceAssert
         p.load( new FileInputStream( props ) );
         return p;
     }
-    
-    public Properties readEnvironmentVariablesFromDevice() throws ExecutionException, IOException 
+
+    public Properties readEnvironmentVariablesFromDevice()
+        throws ExecutionException, IOException
     {
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
 
@@ -135,13 +138,52 @@ public class ItVerifier extends DeviceAssert
 
         commands.add( "set" );
 
-        executor.executeCommand( SDK, commands, new File( "." ), false );     
-        
+        executor.executeCommand( SDK, commands, new File( "." ), false );
+
         Properties p = new Properties();
-        p.load( new StringReader(executor.getStandardOut()) );
+        p.load( new StringReader( executor.getStandardOut() ) );
         return p;
     }
 
+    public Properties getDeviceProperties()
+        throws IOException, ExecutionException
+    {
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "getprop" );
+
+        executor.executeCommand( SDK, commands, new File( "." ), false );
+
+        Properties p = new Properties();
+        BufferedReader reader = new BufferedReader( new StringReader( executor.getStandardOut() ) );
+
+        String line = null;
+        while ( ( line = reader.readLine() ) != null )
+        {
+            int firstColon = line.indexOf( ":" );
+            String name = line.substring( 1, firstColon - 1 );
+            String value = line.substring( firstColon + 3, line.length() - 1 );
+            p.put( name, value );
+        }
+        return p;
+    }
+
+    /*
+    public void setEnvironmentProperty(String name, String value) throws ExecutionException {
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "export" );
+
+        commands.add( name + "=" + value );
+        executor.executeCommand( SDK, commands, new File( "." ), false );             
+    }
+    */
     private void deleteLog( File log )
         throws ExecutionException
     {

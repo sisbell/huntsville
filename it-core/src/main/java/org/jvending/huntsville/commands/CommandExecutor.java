@@ -247,7 +247,7 @@ public interface CommandExecutor
 
                     public void consumeLine( String line )
                     {
-                        sbe.append( line );
+                        sbe.append( line ).append( '\r' );;
                         System.out.println( line );
                         /*
                          * if ( logger != null ) { logger.error( line ); }
@@ -296,7 +296,7 @@ public interface CommandExecutor
 
                     public void consumeLine( String line )
                     {
-                        sb.append( line );
+                        sb.append( line ).append( '\r' );
                         System.out.println( line );
                         /*
                          * if ( logger != null ) { consumer.consumeLine( line );

@@ -80,10 +80,33 @@ public class ItVerifierTest
     {
         DeviceAssert.assertPackageInstalled( "com.android.vending" );
     }
-    
+
     public void testPackagesInstalled()
         throws Exception
     {
-        DeviceAssert.assertPackagesInstalled( Arrays.asList("com.android.vending", "com.google.android.browser" ));
+        DeviceAssert.assertPackagesInstalled( Arrays.asList( "com.android.vending", "com.google.android.browser" ) );
     }
+
+    public void testDevicePropertyExists()
+        throws Exception
+    {
+        DeviceAssert.assertDevicePropertyExists( "ro.debuggable" );
+    }
+
+    public void testDevicePropertyValue()
+        throws Exception
+    {
+        DeviceAssert.assertDevicePropertyValue( "ro.debuggable", "1" );
+        
+    }
+    
+    /*
+    public void testSetEnvironmentProperty() throws Exception {
+        ItVerifier it = new ItVerifier();
+        String testName = "test" + System.currentTimeMillis();
+        it.setEnvironmentProperty( testName, "testValue" );
+        
+        DeviceAssert.assertEnvironmentPropertyExists( testName );
+    }
+    */
 }
