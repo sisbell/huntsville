@@ -34,16 +34,43 @@ public class DeviceAssert
         assertTrue( executePackagesCommands().getStandardOut().contains( appPackage ) );
     }
 
-    public static void assertLogDoesNotContainMessage(String message  )
-        throws ExecutionException, IOException
+    public static void assertNoErrorsInLog( String tag )
+        throws IOException, ExecutionException
     {
-        assertTrue( !(new ItVerifier(  ).getLogAsString( null ).contains( message )) );    
+        LogcatConfig c = new LogcatConfig();
+        c.setPriority( LogPriority.ERROR );
+
+        if ( tag != null )
+        {
+            c.setTag( tag );
+        }
+        assertTrue( !( new ItVerifier().getLogAsString( c ).contains( "E/" ) ) );
     }
-    
-    public static void assertLogContainsMessage(String message  )
+
+    public static void assertNoErrorsOrWarningsInLog( String tag )
+        throws IOException, ExecutionException
+    {
+        LogcatConfig c = new LogcatConfig();
+        c.setPriority( LogPriority.WARNING );
+        if ( tag != null )
+        {
+            c.setTag( tag );
+        }
+        
+        String log = new ItVerifier().getLogAsString( c );
+        assertTrue( !( log.contains( "E/" ) || log.contains( "W/" ) ) );
+    }
+
+    public static void assertLogDoesNotContainMessage( String message )
         throws ExecutionException, IOException
     {
-        assertTrue( (new ItVerifier(  ).getLogAsString( null ).contains( message )) );    
+        assertTrue( !( new ItVerifier().getLogAsString( null ).contains( message ) ) );
+    }
+
+    public static void assertLogContainsMessage( String message )
+        throws ExecutionException, IOException
+    {
+        assertTrue( ( new ItVerifier().getLogAsString( null ).contains( message ) ) );
     }
 
     public static void assertPackagesInstalled( List<String> appPackages )
