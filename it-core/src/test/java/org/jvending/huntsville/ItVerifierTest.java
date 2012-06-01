@@ -134,6 +134,12 @@ public class ItVerifierTest
         it.takeScreenshot( new File("foobar-" + System.currentTimeMillis() + ".png"), 
                                       targetDir, tempFileDir );
     }   
+    
+    public void testVmStat() throws Exception
+    {
+        File targetDir = new File( "target/logs" );
+        Performance.vmstat( targetDir, 5 );
+    }
 
     /*
     public void testSetEnvironmentProperty() throws Exception {

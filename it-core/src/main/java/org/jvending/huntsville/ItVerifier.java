@@ -119,7 +119,7 @@ public class ItVerifier
         return pullFileFromDevice( tempFileOnDevice, targetDirectory );
     }
 
-    public File pullFileFromDevice( File sourceFileName, File targetDirectory )
+    public static File pullFileFromDevice( File sourceFileName, File targetDirectory )
         throws IOException, ExecutionException
     {
         if ( sourceFileName == null || targetDirectory == null )
@@ -231,7 +231,7 @@ public class ItVerifier
         executor.executeCommand( SDK, commands, new File( "." ), false );             
     }
     */
-    private void deleteLog( File log )
+    private static void deleteLog( File log )
         throws ExecutionException
     {
         CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();

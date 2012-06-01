@@ -85,6 +85,10 @@ public interface CommandExecutor
     void executeCommand( String executable, List<String> commands, File workingDirectory, boolean failsOnErrorOutput )
         throws ExecutionException;
 
+    void executeCommand( String executable, List<String> commands, File workingDirectory, boolean failsOnErrorOutput,
+                         int timeout )
+        throws ExecutionException;
+
     /**
      * Returns the process result of executing the command. Typically a value of
      * 0 means that the process executed successfully.
@@ -166,7 +170,7 @@ public interface CommandExecutor
                 }
 
                 public void executeCommand( String executable, List<String> commands, File workingDirectory,
-                                            boolean failsOnErrorOutput )
+                                            boolean failsOnErrorOutput, int secondsTimeout )
                     throws ExecutionException
                 {
                     if ( commands == null )
@@ -185,7 +189,10 @@ public interface CommandExecutor
                     }
                     try
                     {
-                        result = CommandLineUtils.executeCommandLine( commandline, stdOut, stdErr );
+                        result = ( secondsTimeout == 0 ) ? CommandLineUtils.executeCommandLine( commandline, stdOut,
+                                                                                                stdErr )
+                                                        : CommandLineUtils.executeCommandLine( commandline, stdOut,
+                                                                                               stdErr, secondsTimeout );
 
                         System.out.println( "ANDROID-040-000: Executed command: Commandline = " + commandline
                             + ", Result = " + result );
@@ -201,6 +208,13 @@ public interface CommandExecutor
                         throw new ExecutionException( "ANDROID-040-002: Could not execute: Command = "
                             + commandline.toString() );
                     }
+                }
+
+                public void executeCommand( String executable, List<String> commands, File workingDirectory,
+                                            boolean failsOnErrorOutput )
+                    throws ExecutionException
+                {
+                    executeCommand( executable, commands, null, failsOnErrorOutput, 0 );
                 }
 
                 public int getResult()
