@@ -123,6 +123,17 @@ public class ItVerifierTest
     {
         DeviceAssert.assertLogDoesNotContainMessage( "foobar" );
     }
+    
+    public void testTakeScreenshot()
+        throws Exception
+    {
+        File targetDir = new File( "target/screenshots" );
+        File tempFileDir = new File( "/sdcard" );
+
+        ItVerifier it = new ItVerifier();
+        it.takeScreenshot( new File("foobar-" + System.currentTimeMillis() + ".png"), 
+                                      targetDir, tempFileDir );
+    }   
 
     /*
     public void testSetEnvironmentProperty() throws Exception {

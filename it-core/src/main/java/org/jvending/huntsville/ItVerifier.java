@@ -24,7 +24,24 @@ public class ItVerifier
         return saveLog( tempFileDir, targetDirectory, null );
     }
 
-    public String getLogAsString(LogcatConfig config) 
+    public File takeScreenshot( File screenshotFileName, File targetDirectory, File tempFileDir )
+        throws IOException, ExecutionException
+    {
+        File tempFileOnDevice = new File( tempFileDir, screenshotFileName.getName() );
+
+        CommandExecutor executor = CommandExecutor.Factory.createDefaultCommmandExecutor();
+        List<String> commands = new ArrayList<String>();
+        commands.add( "shell" );
+
+        commands.add( "screenshot" );
+        commands.add( tempFileOnDevice .getAbsolutePath() );
+
+        executor.executeCommand( SDK, commands, targetDirectory, false );
+
+        return pullFileFromDevice( tempFileOnDevice, targetDirectory );
+    }
+
+    public String getLogAsString( LogcatConfig config )
         throws IOException, ExecutionException
     {
         LogcatConfig logcatConfig = ( config == null ) ? new LogcatConfig() : config.createCopy();
@@ -50,10 +67,10 @@ public class ItVerifier
         commands.add( "-v" );
         commands.add( logcatConfig.getFormat().format );
 
-        executor.executeCommand( SDK, commands, new File( "." ), false );  
+        executor.executeCommand( SDK, commands, new File( "." ), false );
         return executor.getStandardOut();
     }
-    
+
     public File saveLog( File tempFileDir, File targetDirectory, LogcatConfig config )
         throws IOException, ExecutionException
     {
